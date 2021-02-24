@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, TextInput, Alert} from 'react-native'
+import Loader from './Loader'
 
 const Home = ({ navigation }) => {
+  const url = 'https://api-siswa.herokuapp.com'
   const [nis, setNis] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const loginHandler = async () => {
+    setLoading(true)
     const res = await fetch(`https://api-siswa.herokuapp.com/api/user/login`, {
       method: 'POST',
       headers: {
@@ -20,7 +24,8 @@ const Home = ({ navigation }) => {
     if (res.ok) {
       const data = await res.json()
       console.log(data.data.token)
-      return navigation.navigate('Menu', {token: data.data.token})
+      setLoading(false)
+      return navigation.navigate('Menu', {user: data.data, serverUrl: url})
     }else{
       return Alert.alert(
         'Login Failed!',
@@ -38,6 +43,7 @@ const Home = ({ navigation }) => {
 
   return (
       <View style={styles.container}>
+        <Loader loading={loading}/>
         <View style={styles.titleWrapper}>
           <Text style={styles.titleText}>LOGIN</Text>
         </View>
