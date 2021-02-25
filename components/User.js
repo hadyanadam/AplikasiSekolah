@@ -1,40 +1,46 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Header from './Header'
 import Loader from './Loader'
+import {capitalizeText} from '../utils/textUtils'
 
 const User = ({navigation, user, url}) => {
+  const token = user.token
   const [userData, setUserData] = useState({})
-  const [loading, setLoading] = useState(false)
   useEffect(() => {
-    Object.entries(userData).length === 0 ? setLoading(true) : setLoading(false)
-    const timer = setInterval(() => {
-      fetch(`${url}/api/user?id=${user.id}`, {
-        headers: {
-          'auth-token': user.token
-        }
-      })
-        .then(response => response.json())
-        .then(commits => {console.log(commits); setUserData(commits.data[0])})
-    }, 10000)
-    return () => clearInterval(timer)
-  }, [user, loading, url, setLoading, userData, setUserData])
+    console.log('userEffect')
+    return getUserData()
+  }, [user, url, getUserData])
+
+  const getUserData = useCallback(() => {
+    fetch(`${url}/api/user?id=${user.id}`, {
+      headers: {
+        'auth-token': token
+      }
+    })
+      .then(response => response.json())
+      .then(commits => {console.log(commits); setUserData(commits.data[0])})
+  }, [user.id, url, setUserData, token])
 
   return (
     <>
-      <Loader loading={loading}/>
+      {Object.entries(userData).length === 0 ? <Loader loading={true}/> : <Loader loading={false}/>}
       <Header title={'User Info'}/>
       <View style={styles.container}>
           <View style={styles.profileSection}>
             <MaterialIcons name="person" size={200}/>
             <View style={styles.profileInfo}>
               <Text style={styles.profileLabel}>Name</Text>
-              <Text style={styles.profileText}>{userData.name}</Text>
+              <Text style={styles.profileText}>{userData.nama}</Text>
               <Text style={styles.profileLabel}>Kelas</Text>
-              <Text style={styles.profileText}>Kelas</Text>
+              <Text style={styles.profileText}>{userData.kelas}</Text>
               <Text style={styles.profileLabel}>NIS</Text>
               <Text style={styles.profileText}>{userData.nis}</Text>
+              <Text style={styles.profileLabel}>Tempat Tgl lahir</Text>
+              <Text style={styles.profileText}>{userData.ttl ? capitalizeText(userData.ttl) : ''}</Text>
+              <Text style={styles.profileLabel}>Status</Text>
+              <Text style={styles.profileText}>{userData.status ? 'Aktif' : 'Non Aktif'}</Text>
             </View>
           </View>
           <TouchableOpacity style={styles.choice}>
@@ -53,19 +59,23 @@ const styles = StyleSheet.create({
     flex: 1
   },
   profileSection: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   profileInfo: {
+    width: '35%',
     flexDirection: 'column',
     paddingTop: 10,
   },
   profileLabel: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 'bold',
   },
   profileText: {
-    fontSize: 18,
-    fontWeight: 'normal'
+    fontSize: 12,
+    fontWeight: 'normal',
+    borderWidth: 1,
+    borderColor: 'white',
+    borderBottomColor: 'black'
   },
   logoutBtn: {
     marginTop: 5,

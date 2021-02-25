@@ -6,7 +6,7 @@ const ItemList = ({item}) => {
   return (
     <TouchableOpacity style={styles.listItem}>
         <View style={styles.listItemView}>
-            <Text>{item.item.pelajaran.toUpperCase()}</Text>
+            <Text>{item.item.pelajaran.nama.toUpperCase()}</Text>
             <Text>{item.item.nilai}</Text>
         </View>
     </TouchableOpacity>

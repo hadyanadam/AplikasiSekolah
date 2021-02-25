@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {View, Text, StyleSheet, FlatList, Button, TextInput} from 'react-native'
 import ItemList from './ItemList'
 import Header from './Header'
+import Loader from './Loader'
 
 const Nilai = ({user, url}) => {
   const token = user.token
   const [role, setRole] = useState(3)
-  const [listNilai, setListNilai] = useState([
-    {
-      id: 1,
-      pelajaran: 'Bahasa Indonesia',
-      nilai: 90
-    },
-    {
-      id: 2,
-      pelajaran: 'Bahasa Inggris',
-      nilai: 80
-    },
-    {
-      id: 3,
-      pelajaran: 'Matematika',
-      nilai: 90
-    },
-  ])
-  // useEffect(() => getListNilai())
+  const [listNilai, setListNilai] = useState(null)
+
+  useEffect(() => {
+    console.log('nilai efect')
+    return getNilai()
+  }, [getNilai])
 
   const checkRole = () => {
     if (role < 3){
@@ -35,43 +24,29 @@ const Nilai = ({user, url}) => {
     }
   }
 
-  const getPelajaran = async () => {
-    const response = await fetch(`${url}/api/pelajaran`, {
+  const getNilai = useCallback(() => {
+    fetch(`${url}/api/nilai?user_id=${user.id}`, {
       headers: {
-        'auth-token': JSON.stringify(token)
+        'Content-Type': 'application/json',
+        'auth-token': token
       }
     })
-    if (response.ok){
-      const commits = await response.json()
-      return commits
-    }else{
-      return {status: 'error'}
-    }
-  }
-
-  const getNilai = async () => {
-    const response = await fetch(`${url}/api/nilai?user_id=2`, {
-      headers: {
-        'auth-token': JSON.stringify(token)
-      }
-    })
-    if (response.ok){
-      const commits = await response.json()
-      return commits
-    }else{
-      return {status: 'error'}
-    }
-  }
+      .then(response => response.json())
+      .then(commits => setListNilai(commits.data))
+  }, [setListNilai, user.id, url, token])
 
   return (
       <View>
+        {listNilai === null ? <Loader loading={true}/> : <Loader loading={false}/>}
         <Header title={'Daftar Nilai'}/>
         {checkRole()}
-        <FlatList
-          data={listNilai}
-          renderItem={(item) => <ItemList item={item}/>}
-          keyExtractor={(item) => item.id}
-        />
+        {listNilai !== null ? listNilai.length !== 0 ?
+          <FlatList
+            data={listNilai}
+            renderItem={(item) => <ItemList item={item}/>}
+            keyExtractor={(item) => item.id.toString()}
+          /> : <Text>Tidak ada pelajaran</Text> : <Text>Loading</Text>
+        }
       </View>
   );
 };
