@@ -43,7 +43,8 @@ const User = ({navigation, user, url}) => {
               <Text style={styles.profileText}>{userData.status ? 'Aktif' : 'Non Aktif'}</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.choice}>
+          <TouchableOpacity style={styles.choice} onPress={() => navigation.navigate('Edit User', {
+            user: userData, setUser: setUserData, url: url, token:token})}>
             <Text>Edit Profile</Text>
           </TouchableOpacity>
           <View style={styles.logoutBtn}>

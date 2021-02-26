@@ -9,13 +9,6 @@ const Pembayaran = ({user, url}) => {
   const token = user.token
   const [pembayaran, setPembayaran] = useState([])
 
-  const dummyData = {
-    id:1,
-    keterangan: 'test',
-    nominal: 12000,
-    createdAt: '19 maret',
-    status: true
-  }
   useEffect(() => {
     console.log('ini effect')
     return getPembayaran()
@@ -28,8 +21,25 @@ const Pembayaran = ({user, url}) => {
       }
     })
       .then(response => response.json())
-      .then(commits => {console.log(commits.data);setPembayaran(commits.data)})
+      .then(commits => setPembayaran(commits.data))
   }, [setPembayaran, token, url, user.id])
+
+  const bayar = (id) => {
+    fetch(`${url}/api/pembayaran/${id}`, {
+      method: 'PUT',
+      headers: {
+        'auth-token': token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'status': false
+      })
+    })
+    setPembayaran(() => pembayaran.map(pemb => pemb.id === id ? {
+        ...pemb, status: false
+      } : pemb
+    ))
+  }
 
   return (
     <>
@@ -38,7 +48,7 @@ const Pembayaran = ({user, url}) => {
       <ScrollView contentContainerStyle={styles.container}>
         {
           pembayaran.length !== 0 ? 
-          pembayaran.map((item) => <PembayaranBox key={item.id} data={item} />)
+          pembayaran.map((item) => <PembayaranBox key={item.id} data={item} bayar={bayar}/>)
            : <Text>tidak ada pembayaran</Text>
         }
         {/* <PembayaranBox data={dummyData} /> */}

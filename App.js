@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen'
+import EditUser from './components/EditUser'
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ const App = () => {
         <Stack.Screen name="Menu" component={MenuScreen} options={{
           headerShown: false
         }}/>
+        <Stack.Screen name="Edit User" component={EditUser}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

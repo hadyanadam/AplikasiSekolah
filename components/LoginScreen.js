@@ -10,7 +10,7 @@ const Home = ({ navigation }) => {
 
   const loginHandler = async () => {
     setLoading(true)
-    const res = await fetch(`https://api-siswa.herokuapp.com/api/user/login`, {
+    const res = await fetch(`${url}/api/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -27,6 +27,7 @@ const Home = ({ navigation }) => {
       setLoading(false)
       return navigation.navigate('Menu', {user: data.data, serverUrl: url})
     }else{
+      setLoading(false)
       return Alert.alert(
         'Login Failed!',
         'Please make sure NIS and Password correct!'
@@ -34,18 +35,11 @@ const Home = ({ navigation }) => {
     }
   }
 
-  const sigupHandler = async () => {
-    const res = await fetch(`https://api-siswa.herokuapp.com/api/user?role=3`)
-    const data = await res.json()
-    console.log(res)
-    console.log(data)
-  }
-
   return (
       <View style={styles.container}>
         <Loader loading={loading}/>
         <View style={styles.titleWrapper}>
-          <Text style={styles.titleText}>LOGIN</Text>
+          <Text style={styles.titleText}>Aplikasi Sekolah</Text>
         </View>
         <View style={styles.inputView} >
           <TextInput
@@ -71,9 +65,6 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => loginHandler()} style={styles.loginBtn}>
           <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => sigupHandler()}>
-          <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
       </View>
   );

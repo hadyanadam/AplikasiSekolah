@@ -16,17 +16,7 @@ const MenuScreen = ({navigation, route}) => {
 
   return (
     <>
-      <Tab.Navigator initialRouteName="Beranda">
-        <Tab.Screen
-          name="Beranda"
-          options={{
-            tabBarIcon: ({color, size}) => (
-              <MaterialIcons name="home" color={color} size={size} />
-            )
-          }}
-        >
-          {() => <Home navigation={navigation} user={user} url={url}/>}
-        </Tab.Screen>
+      <Tab.Navigator initialRouteName="User">
         <Tab.Screen
           name="User"
           options={{
