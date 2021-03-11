@@ -1,27 +1,47 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import {View, Text, StyleSheet, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Loader from './Loader'
 import Header from './Header'
 import PembayaranBox from './PembayaranBox'
+import AddPembayaran from './AddPembayaran'
 
-const Pembayaran = ({user, url}) => {
+const Pembayaran = ({navigation, user, url}) => {
   const token = user.token
   const [pembayaran, setPembayaran] = useState([])
-
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     console.log('ini effect')
     return getPembayaran()
   }, [getPembayaran])
 
   const getPembayaran = useCallback(() => {
-    fetch(`${url}/api/pembayaran?user_id=${user.id}`, {
+    setLoading(true)
+    fetch(user.role === 3 ? `${url}/api/pembayaran?user_id=${user.id}` : `${url}/api/pembayaran`, {
       headers: {
         'auth-token': token
       }
     })
-      .then(response => response.json())
-      .then(commits => setPembayaran(commits.data))
+      .then(response => {
+        if (response.ok){
+          console.log('ok pmebayaran')
+          return response.json()
+        }
+        console.log('reject pembayaran')
+        return Promise.reject(response)
+      })
+      .then(commits => {
+        console.log(commits)
+        if(commits.data.length !== 0){
+          setLoading(false)
+          return setPembayaran(commits.data)
+        }
+        return Promise.reject('Empty json')
+      })
+      .catch(error => {
+        Alert.alert('Error', error)
+        setLoading(false)
+      })
   }, [setPembayaran, token, url, user.id])
 
   const bayar = (id) => {
@@ -43,16 +63,16 @@ const Pembayaran = ({user, url}) => {
 
   return (
     <>
-      {pembayaran.length === 0 ? <Loader loading={true} /> : <Loader loading={false} />}
-      <Header title='Pembayaran' />
-      <ScrollView contentContainerStyle={styles.container}>
+      <Loader loading={loading} />
+      <Header title={user.role === 1 ? 'Tambah Pembayaran' : 'Pembayaran'} />
+      {user.role === 1 && <AddPembayaran navigation={navigation} setPembayaran={setPembayaran} token={token} url={url} setLoading={setLoading} pembayaran={pembayaran}/>}
+      {user.role === 3 && <ScrollView contentContainerStyle={styles.container}>
         {
           pembayaran.length !== 0 ? 
           pembayaran.map((item) => <PembayaranBox key={item.id} data={item} bayar={bayar}/>)
-           : <Text>tidak ada pembayaran</Text>
+           : <Text>Tidak ada pembayaran</Text>
         }
-        {/* <PembayaranBox data={dummyData} /> */}
-      </ScrollView>
+      </ScrollView>}
     </>
   );
 };
@@ -71,6 +91,15 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 10,
     borderWidth: 2
+  },
+  pembayaranListContainer: {
+    flex:1,
+    alignSelf: 'stretch',
+    flexDirection: 'row'
+  },
+  pembayaranListItem: {
+    flex: 1,
+    alignSelf: 'stretch'
   }
 })
 

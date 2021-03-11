@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {View, Text, StyleSheet} from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 import Header from './Header'
 import Loader from './Loader'
 import Icons from 'react-native-vector-icons/Ionicons'
@@ -9,17 +10,17 @@ const Absen = ({user, url}) => {
   const [absen, setAbsen] = useState({absen1: false, absen2: false, updatedAt: ''})
   const token = user.token
 
-  useEffect(() => getAbsen(), [getAbsen])
-
-  const getAbsen = useCallback(() => {
-    fetch(`${url}/api/absen?user_id=${user.id}`, {
-      headers: {
-        'auth-token': token
-      }
-    })
-     .then(response => response.json())
-     .then(commits => {setAbsen(commits.data[0]);console.log(commits.data)})
-  }, [user.id, token, url, setAbsen])
+  useFocusEffect(
+    useCallback(() => {
+      fetch(`${url}/api/absen?user_id=${user.id}`, {
+        headers: {
+          'auth-token': token
+        }
+      })
+       .then(response => response.json())
+       .then(commits => {setAbsen(commits.data[0]);console.log(commits.data)})
+    }, [user.id, token, url, setAbsen])
+  )
 
   return (
     <>
@@ -34,7 +35,7 @@ const Absen = ({user, url}) => {
                 :<Icons name="close-circle" size={100} color='red'/>}
             </View>
             <View style={styles.absenFoot}>
-              {absen.absen1 ? <Text>Absen pada: {`${formatDate(absen.updatedAt)}`}</Text> : <Text>Silahkan melakukan absen</Text>}
+              {absen.absen1 ? <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text> : <Text>Silahkan melakukan absen</Text>}
             </View>
           </View>
           <View style={styles.absenRow}>

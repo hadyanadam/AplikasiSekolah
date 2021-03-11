@@ -1,29 +1,26 @@
 import React,{useState} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, Button, TextInput} from 'react-native'
 
-const ItemList = ({item}) => {
-  console.log(item)
-  return (
-    <TouchableOpacity style={styles.listItem}>
-        <View style={styles.listItemView}>
-            <Text>{item.item.pelajaran.nama.toUpperCase()}</Text>
-            <Text>{item.item.nilai}</Text>
+const ItemList = ({navigation, item, url, user, token, guruUser}) => {
+    const toListNilai = () => navigation.navigate('List Nilai', {url: url, pelajaran: item, token: token, user: user, guruUser: guruUser})
+    // const toListNilai = () => console.log(user, item)
+    return (
+        <View style={styles.listItem}>
+            <TouchableOpacity onPress={() => toListNilai()}>
+                <Text>{item.nama.toUpperCase()}</Text>
+            </TouchableOpacity>
         </View>
-    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
     listItem: {
+        width: '95%',
         padding: 15,
         backgroundColor: 'lightgrey',
-        borderBottomWidth: 1,
-        borderColor: '#eee'
-    },
-    listItemView: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        borderWidth: 1,
+        borderColor: 'darkslateblue',
+        marginVertical: 5
     },
     listItemText: {
         fontSize: 18

@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './Home'
 // import Loader from './Loader'
 import Absen from './Absen'
-import Pembayaran from './Pembayaran'
-import Nilai from './Nilai'
+import PembayaranStackScreen from './PembayaranStackScreen'
+import PelajaranStackScreen from './PelajaranStackScreen'
 import User from './User'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -27,7 +27,7 @@ const MenuScreen = ({navigation, route}) => {
         >
           {() => <User navigation={navigation} user={user} url={url}/>}
         </Tab.Screen>
-        <Tab.Screen
+        {user.role === 3 && <Tab.Screen
           name="Absen"
           options={{
             tabBarIcon: ({color, size}) => (
@@ -36,18 +36,18 @@ const MenuScreen = ({navigation, route}) => {
           }}
         >
           {() => <Absen  navigation={navigation} user={user} url={url}/>}
-        </Tab.Screen>
-        <Tab.Screen
-          name="Nilai"
+        </Tab.Screen>}
+        {user.role !== 1 && <Tab.Screen
+          name="Pelajaran"
           options={{
             tabBarIcon: ({color, size}) => (
               <MaterialIcons name="assessment" color={color} size={size} />
             )
           }}
         >
-          {() => <Nilai navigation={navigation} user={user} url={url}/>}
-        </Tab.Screen>
-        <Tab.Screen
+          {() => <PelajaranStackScreen navigation={navigation} user={user} url={url}/>}
+        </Tab.Screen>}
+        {user.role !== 2 && <Tab.Screen
           name="Pembayaran"
           options={{
             tabBarIcon: ({color, size}) => (
@@ -55,8 +55,8 @@ const MenuScreen = ({navigation, route}) => {
             )
           }}
         >
-          {() => <Pembayaran navigation={navigation} user={user} url={url}/>}
-        </Tab.Screen>
+          {() => <PembayaranStackScreen navigation={navigation} user={user} url={url}/>}
+        </Tab.Screen>}
       </Tab.Navigator>
     </>
   );

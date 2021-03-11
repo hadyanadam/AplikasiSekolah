@@ -44,7 +44,7 @@ const Home = ({ navigation }) => {
         <View style={styles.inputView} >
           <TextInput
             style={styles.inputText}
-            placeholder="NIS..."
+            placeholder="Nomor Induk..."
             placeholderTextColor="#003f5c"
             keyboardType={'numeric'}
             onChangeText={text => setNis(parseInt(text))}/>
