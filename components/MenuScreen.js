@@ -8,6 +8,7 @@ import PelajaranStackScreen from './PelajaranStackScreen';
 import User from './User';
 import PendaftaranSiswa from './PendaftaranSiswa';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ProfileStackScreen from './ProfileStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +26,9 @@ const MenuScreen = ({navigation, route}) => {
               <MaterialIcons name="person" color={color} size={size} />
             ),
           }}>
-          {() => <User navigation={navigation} user={user} url={url} />}
+          {() => (
+            <ProfileStackScreen navigation={navigation} user={user} url={url} />
+          )}
         </Tab.Screen>
         {user.role === 1 && (
           <Tab.Screen

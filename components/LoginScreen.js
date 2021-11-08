@@ -11,7 +11,7 @@ import Loader from './Loader';
 
 const Home = ({navigation}) => {
   // const url = 'http://107.175.247.242:2000';
-  const url = 'http://192.168.0.133:2000';
+  const url = 'https://api-siswa.herokuapp.com';
   const [nis, setNis] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

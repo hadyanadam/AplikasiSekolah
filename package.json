@@ -6,7 +6,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "emulator": "emulator -avd Nexus6",
+    "emulator": "emulator",
     "start": "react-native start",
     "build": "cd ./android && ./gradlew assembleRelease",
     "test": "jest",
