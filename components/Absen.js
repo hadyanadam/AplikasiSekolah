@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import Header from './Header';
 import Loader from './Loader';
@@ -37,7 +37,10 @@ const Absen = ({user, url}) => {
         <Loader loading={false} />
       )}
       <Header title={'Absen'} />
+
       <View style={styles.container}>
+        <ScrollView>
+      <Text style={styles.absenLabel}>Absen Siswa</Text>
         <View style={styles.absenColumn}>
           <View style={styles.absenRow}>
             <Text style={styles.absenHead}>Absen 1</Text>
@@ -74,6 +77,116 @@ const Absen = ({user, url}) => {
             </View>
           </View>
         </View>
+      <Text style={styles.absenLabel}>Absen Pelajaran</Text>
+      <View style={styles.absenColumn}>
+      <View style={styles.absenRow}>
+        <Text style={styles.absenHead}>Absen Bahasa Indonesia</Text>
+        <View style={styles.absenContent}>
+          {absen && absen.bahasa_indonesia ? (
+            <Icons name="checkmark-circle" size={100} color="green" />
+          ) : (
+            <Icons name="close-circle" size={100} color="red" />
+          )}
+        </View>
+        <View style={styles.absenFoot}>
+          {absen && absen.bahasa_indonesia ? (
+            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+          ) : (
+            <Text>Silahkan melakukan absen</Text>
+          )}
+        </View>
+      </View>
+      <View style={styles.absenRow}>
+        <Text style={styles.absenHead}>Absen PKN</Text>
+        <View style={styles.absenContent}>
+          {absen && absen.pkn ? (
+            <Icons name="checkmark-circle" size={100} color="green" />
+          ) : (
+            <Icons name="close-circle" size={100} color="red" />
+          )}
+        </View>
+        <View style={styles.absenFoot}>
+          {absen && absen.pkn ? (
+            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+          ) : (
+            <Text>Silahkan melakukan absen</Text>
+          )}
+        </View>
+      </View>
+      </View>
+      <View style={styles.absenColumn}>
+      <View style={styles.absenRow}>
+        <Text style={styles.absenHead}>Absen Bahasa Inggris</Text>
+        <View style={styles.absenContent}>
+          {absen && absen.bahasa_inggris ? (
+            <Icons name="checkmark-circle" size={100} color="green" />
+          ) : (
+            <Icons name="close-circle" size={100} color="red" />
+          )}
+        </View>
+        <View style={styles.absenFoot}>
+          {absen && absen.bahasa_inggris ? (
+            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+          ) : (
+            <Text>Silahkan melakukan absen</Text>
+          )}
+        </View>
+      </View>
+      <View style={styles.absenRow}>
+        <Text style={styles.absenHead}>Absen Matematika</Text>
+        <View style={styles.absenContent}>
+          {absen && absen.matematika ? (
+            <Icons name="checkmark-circle" size={100} color="green" />
+          ) : (
+            <Icons name="close-circle" size={100} color="red" />
+          )}
+        </View>
+        <View style={styles.absenFoot}>
+          {absen && absen.matematika ? (
+            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+          ) : (
+            <Text>Silahkan melakukan absen</Text>
+          )}
+        </View>
+      </View>
+      </View>
+      <View style={styles.absenColumn}>
+      <View style={styles.absenRow}>
+        <Text style={styles.absenHead}>Absen IPA</Text>
+        <View style={styles.absenContent}>
+          {absen && absen.ipa ? (
+            <Icons name="checkmark-circle" size={100} color="green" />
+          ) : (
+            <Icons name="close-circle" size={100} color="red" />
+          )}
+        </View>
+        <View style={styles.absenFoot}>
+          {absen && absen.ipa ? (
+            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+          ) : (
+            <Text>Silahkan melakukan absen</Text>
+          )}
+        </View>
+      </View>
+      <View style={styles.absenRow}>
+        <Text style={styles.absenHead}>Absen IPS</Text>
+        <View style={styles.absenContent}>
+          {absen && absen.ips ? (
+            <Icons name="checkmark-circle" size={100} color="green" />
+          ) : (
+            <Icons name="close-circle" size={100} color="red" />
+          )}
+        </View>
+        <View style={styles.absenFoot}>
+          {absen && absen.ips ? (
+            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+          ) : (
+            <Text>Silahkan melakukan absen</Text>
+          )}
+        </View>
+      </View>
+      </View>
+      </ScrollView>
       </View>
     </>
   );
@@ -103,6 +216,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     backgroundColor: 'green',
+  },
+  absenLabel: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 16,
   },
   absenContent: {
     width: '100%',

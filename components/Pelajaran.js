@@ -14,7 +14,6 @@ const Pelajaran = ({navigation, user, url}) => {
 
   useFocusEffect(
     useCallback(() => {
-      console.log('pel effect')
       fetch(`${url}/api/pelajaran?user_id=${selectedSiswa === '' ? user.id : selectedSiswa.id}`, {
         headers: {
           'Content-Type': 'application/json',

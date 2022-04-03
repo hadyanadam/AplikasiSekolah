@@ -6,9 +6,11 @@ import Absen from './Absen';
 import PembayaranStackScreen from './PembayaranStackScreen';
 import PelajaranStackScreen from './PelajaranStackScreen';
 import User from './User';
+import JadwalStackScreen from './JadwalStackScreen';
 import PendaftaranSiswa from './PendaftaranSiswa';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProfileStackScreen from './ProfileStackScreen';
+import ListAbsenStackScreen from './ListAbsenStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,6 +54,28 @@ const MenuScreen = ({navigation, route}) => {
               ),
             }}>
             {() => <Absen navigation={navigation} user={user} url={url} />}
+          </Tab.Screen>
+        )}
+        {user.role !== 1 && (
+          <Tab.Screen
+            name="Data Absen"
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <MaterialIcons name="list" color={color} size={size} />
+              ),
+            }}>
+            {() => <ListAbsenStackScreen navigation={navigation} user={user} url={url} />}
+          </Tab.Screen>
+        )}
+        {user.role !== 1 && (
+          <Tab.Screen
+            name="Jadwal"
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <MaterialIcons name="schedule" color={color} size={size} />
+              ),
+            }}>
+            {() => <JadwalStackScreen navigation={navigation} user={user} url={url} />}
           </Tab.Screen>
         )}
         {user.role !== 1 && (
