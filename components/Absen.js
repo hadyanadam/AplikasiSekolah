@@ -53,7 +53,7 @@ const Absen = ({user, url}) => {
             </View>
             <View style={styles.absenFoot}>
               {absen && absen.absen1 ? (
-                <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+                <Text>Absen pada: {`${formatDate(absen.waktu_absen1)}`}</Text>
               ) : (
                 <Text>Silahkan melakukan absen</Text>
               )}
@@ -70,7 +70,7 @@ const Absen = ({user, url}) => {
             </View>
             <View style={styles.absenFoot}>
               {absen && absen.absen2 ? (
-                <Text>Absen pada: {`${formatDate(absen.updatedAt)}`}</Text>
+                <Text>Absen pada: {`${formatDate(absen.waktu_absen2)}`}</Text>
               ) : (
                 <Text>Silahkan melakukan absen</Text>
               )}
@@ -90,7 +90,7 @@ const Absen = ({user, url}) => {
         </View>
         <View style={styles.absenFoot}>
           {absen && absen.bahasa_indonesia ? (
-            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+            <Text>Absen pada: {`${formatDate(absen.waktu_b_indo)}`}</Text>
           ) : (
             <Text>Silahkan melakukan absen</Text>
           )}
@@ -107,7 +107,7 @@ const Absen = ({user, url}) => {
         </View>
         <View style={styles.absenFoot}>
           {absen && absen.pkn ? (
-            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+            <Text>Absen pada: {`${formatDate(absen.waktu_pkn)}`}</Text>
           ) : (
             <Text>Silahkan melakukan absen</Text>
           )}
@@ -126,7 +126,7 @@ const Absen = ({user, url}) => {
         </View>
         <View style={styles.absenFoot}>
           {absen && absen.bahasa_inggris ? (
-            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+            <Text>Absen pada: {`${formatDate(absen.waktu_b_inggris)}`}</Text>
           ) : (
             <Text>Silahkan melakukan absen</Text>
           )}
@@ -143,7 +143,7 @@ const Absen = ({user, url}) => {
         </View>
         <View style={styles.absenFoot}>
           {absen && absen.matematika ? (
-            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+            <Text>Absen pada: {`${formatDate(absen.waktu_matematika)}`}</Text>
           ) : (
             <Text>Silahkan melakukan absen</Text>
           )}
@@ -162,7 +162,7 @@ const Absen = ({user, url}) => {
         </View>
         <View style={styles.absenFoot}>
           {absen && absen.ipa ? (
-            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+            <Text>Absen pada: {`${formatDate(absen.waktu_ipa)}`}</Text>
           ) : (
             <Text>Silahkan melakukan absen</Text>
           )}
@@ -179,7 +179,7 @@ const Absen = ({user, url}) => {
         </View>
         <View style={styles.absenFoot}>
           {absen && absen.ips ? (
-            <Text>Absen pada: {`${formatDate(absen.createdAt)}`}</Text>
+            <Text>Absen pada: {`${formatDate(absen.waktu_ips)}`}</Text>
           ) : (
             <Text>Silahkan melakukan absen</Text>
           )}
